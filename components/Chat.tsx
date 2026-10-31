@@ -74,7 +74,7 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
 
   const audio = useRef<HTMLAudioElement | null>(null);
 
-  // Browser voice: only used if the natural ElevenLabs voice can't be reached.
+  // Browser voice: only used if the natural voice can't be reached.
   const speakBrowser = useCallback(
     (text: string, then: () => void) => {
       if (typeof window === 'undefined' || !('speechSynthesis' in window)) return then();
