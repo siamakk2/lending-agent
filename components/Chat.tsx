@@ -58,7 +58,10 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
     log.current?.scrollTo({ top: log.current.scrollHeight, behavior: 'smooth' });
   }, [turns, busy]);
 
-  const speak = useCallback(
+  const audio = useRef<HTMLAudioElement | null>(null);
+
+  // Browser voice: only used if the natural ElevenLabs voice can't be reached.
+  const speakBrowser = useCallback(
     (text: string, then: () => void) => {
       if (typeof window === 'undefined' || !('speechSynthesis' in window)) return then();
       const u = new SpeechSynthesisUtterance(toSpeech(text));
@@ -71,6 +74,33 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
       window.speechSynthesis.speak(u);
     },
     [lang],
+  );
+
+  const speak = useCallback(
+    async (text: string, then: () => void) => {
+      try {
+        const res = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: toSpeech(text), lang }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const url = URL.createObjectURL(await res.blob());
+        audio.current?.pause();
+        const a = new Audio(url);
+        audio.current = a;
+        const done = () => {
+          URL.revokeObjectURL(url);
+          then();
+        };
+        a.onended = done;
+        a.onerror = done;
+        await a.play();
+      } catch {
+        speakBrowser(text, then);
+      }
+    },
+    [lang, speakBrowser],
   );
 
   const listen = useCallback(() => {
@@ -113,7 +143,7 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
       const data = await res.json();
       const reply = data.reply || t.error;
       setTurns((cur) => [...cur, { role: 'assistant', content: reply }]);
-      if (viaVoice && voiceRef.current) speak(reply, () => voiceRef.current && listen());
+      if (viaVoice && voiceRef.current) void speak(reply, () => voiceRef.current && listen());
     } catch {
       setNotice(t.error);
     } finally {
@@ -126,6 +156,7 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
       voiceRef.current = false;
       setVoiceOn(false);
       rec.current?.stop();
+      audio.current?.pause();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       return;
     }

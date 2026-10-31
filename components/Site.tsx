@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Chat from './Chat.tsx';
 import { Band, Rosette, WaveField } from './Engraving.tsx';
+import Medallion from './Medallion.tsx';
 import { DICT, LANG_META, LANGS, isLang, type Lang } from '@/lib/i18n.ts';
 import type { Benchmark } from '@/lib/rates.ts';
 import type { LoanType } from '@/lib/config.ts';
@@ -115,6 +116,7 @@ export default function Site({
 
       <section className="hero">
         <WaveField className="hero-waves" />
+        <Medallion className="hero-medallion" />
         <Rosette className="hero-rosette" size={720} />
         <div className="hero-inner">
           <div className="hero-copy">
@@ -134,7 +136,20 @@ export default function Site({
               ))}
             </ul>
           </div>
-          <div id="desk" className="hero-desk">
+          <div
+            id="desk"
+            className="hero-desk"
+            onPointerMove={(e) => {
+              if (e.pointerType !== 'mouse') return;
+              const r = e.currentTarget.getBoundingClientRect();
+              e.currentTarget.style.setProperty('--ry', `${((e.clientX - r.left) / r.width - 0.5) * 5}deg`);
+              e.currentTarget.style.setProperty('--rx', `${-((e.clientY - r.top) / r.height - 0.5) * 4}deg`);
+            }}
+            onPointerLeave={(e) => {
+              e.currentTarget.style.setProperty('--ry', '0deg');
+              e.currentTarget.style.setProperty('--rx', '0deg');
+            }}
+          >
             <Chat lang={lang} lenderName={lenderName} />
           </div>
         </div>

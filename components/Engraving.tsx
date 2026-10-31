@@ -27,7 +27,7 @@ function wave(y0: number, w: number, amp: number, freq: number, phase: number): 
 }
 
 // Every curve stays inside radius 158: (R - r) + d <= 158.
-const ROSETTE = [
+export const ROSETTE = [
   rosette(0, 0, 104, 13, 62, 1500),
   rosette(0, 0, 104, 13, 62, 1500, Math.PI / 13),
   rosette(0, 0, 82, 11, 46, 1200, 0.15),
