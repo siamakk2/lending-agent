@@ -45,6 +45,17 @@ async function notifyBroker(to: string, brokerName: string, subject: string, bod
   }).catch(() => {});
 }
 
+/** Partner ID from the embed (?ref=) in the page URL the chat ran on. */
+export function partnerFrom(source?: string): string | null {
+  if (!source) return null;
+  try {
+    const ref = new URL(source).searchParams.get('ref');
+    return ref ? ref.slice(0, 64) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function saveLead(input: SaveLeadInput, ctx: { sessionId: string; channel?: string; source?: string; ip?: string; userAgent?: string }): Promise<SaveLeadResult> {
   const { score, tier } = scoreLead(input.deal || {}, 5);
   const supa = db();
@@ -78,7 +89,7 @@ export async function saveLead(input: SaveLeadInput, ctx: { sessionId: string; c
 
     const { data: lead, error: le } = await supa
       .from('la_leads')
-      .insert({ contact_id: contact.id, consent_id: consentId, lead_type: input.lead_type, channel: ctx.channel || 'chat', source: ctx.source, score, tier, summary: input.summary, preferred_language: input.preferred_language, best_callback_time: input.best_callback_time, urgent: !!input.urgent, flags: input.flags || [] })
+      .insert({ contact_id: contact.id, consent_id: consentId, lead_type: input.lead_type, channel: ctx.channel || 'chat', source: ctx.source, partner_ref: partnerFrom(ctx.source), score, tier, summary: input.summary, preferred_language: input.preferred_language, best_callback_time: input.best_callback_time, urgent: !!input.urgent, flags: input.flags || [] })
       .select('id')
       .single();
     if (le) throw le;
