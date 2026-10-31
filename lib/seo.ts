@@ -4,7 +4,7 @@ import { DICT, LANGS, LANG_META, type Lang } from './i18n.ts';
 import { FAQ } from './faq.ts';
 import type { Benchmark } from './rates.ts';
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://lending-agent-five.vercel.app').replace(/\/$/, '');
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.lendingdesk.app').replace(/\/$/, '');
 
 export const OG_LOCALE: Record<Lang, string> = { en: 'en_US', es: 'es_US', fa: 'fa_IR', de: 'de_DE', zh: 'zh_CN' };
 
