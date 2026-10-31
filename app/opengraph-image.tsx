@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og';
 import { LENDER } from '@/lib/config.ts';
+import { DICT } from '@/lib/i18n.ts';
 
-export const alt = `${LENDER.name}: private real estate loans`;
+export const alt = `${LENDER.name}: residential and commercial real estate loans`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -14,11 +15,11 @@ export default function OpenGraphImage() {
           {LENDER.name}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-          <div style={{ fontSize: 68, lineHeight: 1.08, maxWidth: 980 }}>Private capital for real estate investors, matched to the right broker.</div>
-          <div style={{ fontSize: 30, color: 'rgba(237,241,239,.8)' }}>Hard money · Fix-and-flip · Bridge · Construction · DSCR</div>
+          <div style={{ fontSize: 68, lineHeight: 1.08, maxWidth: 980 }}>{DICT.en.hero.title}</div>
+          <div style={{ fontSize: 30, color: 'rgba(237,241,239,.8)' }}>Residential · Commercial · Hard money · Bridge · DSCR</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 24, color: '#d2ae63', borderTop: '2px solid rgba(180,138,60,.5)', paddingTop: 22 }}>
-          <span>50+ licensed brokers</span>
+          <span>Non-bank lender · 50+ partner brokers</span>
           <span>English · Español · فارسی · Deutsch · 中文</span>
         </div>
       </div>
