@@ -22,17 +22,17 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { reply, events } = await chat(messages, {
+    const { reply, events, tone } = await chat(messages, {
       sessionId: String(body.sessionId || crypto.randomUUID()).slice(0, 64),
       consent: body.consent === true,
       lang: isLang(body.lang) ? body.lang : 'en',
       voice: body.voice === true,
       channel: 'chat',
-      source: body.source?.slice(0, 200),
+      source: body.source?.slice(0, 300),
       ip: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim(),
       userAgent: req.headers.get('user-agent')?.slice(0, 300) || undefined,
     });
-    return Response.json({ reply, events });
+    return Response.json({ reply, events, tone });
   } catch (e) {
     console.error('chat error', e);
     return Response.json({ reply: 'Sorry, something went wrong on our side. Please try again in a moment.' }, { status: 500 });

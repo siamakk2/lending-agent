@@ -12,7 +12,7 @@ const dealSchema = {
   type: 'object',
   properties: {
     goal: { type: 'string', enum: ['purchase', 'refinance', 'cash_out', 'construction', 'bridge'] },
-    loan_type: { type: 'string', enum: ['fix_flip', 'bridge', 'construction', 'dscr', 'commercial', 'other'] },
+    loan_type: { type: 'string', enum: ['fix_flip', 'bridge', 'construction', 'dscr', 'bank_statement', 'commercial_perm', 'commercial', 'other'] },
     property_type: { type: 'string', enum: ['sfr', '2_4_unit', 'multifamily_5plus', 'mixed_use', 'retail', 'industrial', 'office', 'land', 'other'] },
     property_address: { type: 'string' },
     city: { type: 'string' },
@@ -105,7 +105,16 @@ async function runTool(name: string, input: Record<string, unknown>, ctx: ChatCo
 export type ChatTurn = { role: 'user' | 'assistant'; content: string };
 
 /** One agent turn: run the tool loop until the model answers in text. */
-export async function chat(history: ChatTurn[], ctx: ChatContext): Promise<{ reply: string; events: string[] }> {
+export type Tone = 'calm' | 'warm' | 'reassuring' | 'upbeat';
+
+/** Pull the leading [tone:x] delivery tag off a reply (also removes any stray tags). */
+export function splitTone(text: string): { reply: string; tone: Tone } {
+  const m = text.match(/^\s*\[tone:(calm|warm|reassuring|upbeat)\]\s*/i);
+  const tone = (m?.[1]?.toLowerCase() as Tone) || 'warm';
+  return { reply: text.replace(/\[tone:[a-z]+\]\s*/gi, '').trim(), tone };
+}
+
+export async function chat(history: ChatTurn[], ctx: ChatContext): Promise<{ reply: string; events: string[]; tone: Tone }> {
   const client = new Anthropic();
   const messages: Anthropic.Messages.MessageParam[] = history.slice(-30).map((t) => ({ role: t.role, content: t.content }));
   const events: string[] = [];
@@ -125,13 +134,14 @@ export async function chat(history: ChatTurn[], ctx: ChatContext): Promise<{ rep
 
     const toolUses = res.content.filter((b): b is Anthropic.Messages.ToolUseBlock => b.type === 'tool_use');
     if (res.stop_reason !== 'tool_use' || toolUses.length === 0) {
-      const reply = res.content
+      const raw = res.content
         .filter((b): b is Anthropic.Messages.TextBlock => b.type === 'text')
         .map((b) => b.text)
         .join('\n')
         .trim();
+      const { reply, tone } = splitTone(raw);
       await saveTranscript(ctx.sessionId, [...history, { role: 'assistant', content: reply }], ctx.voice ? 'voice' : ctx.channel, ctx.lang);
-      return { reply, events };
+      return { reply, events, tone };
     }
 
     const results: Anthropic.Messages.ToolResultBlockParam[] = [];
@@ -142,5 +152,5 @@ export async function chat(history: ChatTurn[], ctx: ChatContext): Promise<{ rep
     }
     messages.push({ role: 'user', content: results });
   }
-  return { reply: 'Sorry — I hit a snag. Could you say that once more?', events };
+  return { reply: 'Sorry — I hit a snag. Could you say that once more?', events, tone: 'calm' };
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Chat from './Chat.tsx';
 import { Band, Rosette, WaveField } from './Engraving.tsx';
 import Medallion from './Medallion.tsx';
+import StateMap from './StateMap.tsx';
 import { DICT, LANG_META, LANGS, isLang, type Lang } from '@/lib/i18n.ts';
 import type { Benchmark } from '@/lib/rates.ts';
 import type { LoanType } from '@/lib/config.ts';
@@ -12,7 +13,10 @@ import type { QA } from '@/lib/faq.ts';
 type Ranges = Record<LoanType, { rate: string; points: string | null; term: { from: number; to: number; unit: 'mo' | 'yr' } | null }>;
 
 const BOARD = ['DPRIME', 'SOFR', 'DFEDTARU', 'DGS10', 'MORTGAGE30US'];
-const PROGRAM_ORDER: LoanType[] = ['fix_flip', 'bridge', 'construction', 'dscr', 'commercial'];
+const SEGMENTS: Record<'residential' | 'commercial', LoanType[]> = {
+  residential: ['bank_statement', 'dscr', 'fix_flip', 'bridge', 'construction'],
+  commercial: ['commercial_perm', 'commercial', 'construction'],
+};
 
 function fmtDate(iso: string, lang: Lang) {
   const locale = { en: 'en-US', es: 'es-US', fa: 'fa-IR', de: 'de-DE', zh: 'zh-CN' }[lang];
@@ -34,6 +38,7 @@ export default function Site({
   rangesAsOf,
   lenderName,
   nmls,
+  states,
   initialLang,
   faq,
   faqTitle,
@@ -43,11 +48,14 @@ export default function Site({
   rangesAsOf: string;
   lenderName: string;
   nmls: string;
+  states: string[];
   initialLang: Lang;
   faq: Record<Lang, QA[]>;
   faqTitle: Record<Lang, string>;
 }) {
   const [lang, setLang] = useState<Lang>(initialLang);
+  const [seg, setSeg] = useState<'residential' | 'commercial'>('residential');
+  const [copied, setCopied] = useState(false);
   const d = DICT[lang];
   const meta = LANG_META[lang];
 
@@ -78,6 +86,8 @@ export default function Site({
     } catch {}
   }, [lang, meta.dir]);
 
+  const origin = typeof window === 'undefined' ? 'https://www.lendingdesk.app' : window.location.origin;
+  const snippet = `<script src="${origin}/embed.js" data-partner="YOUR-ID" data-lang="${lang}" async></script>`;
   const toDesk = () => document.getElementById('desk')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   const board = BOARD.map((s) => benchmarks.find((b) => b.series === s)).filter(Boolean) as Benchmark[];
   const term = (r: Ranges[LoanType]) =>
@@ -95,6 +105,7 @@ export default function Site({
           <a href="#rates">{d.nav.rates}</a>
           <a href="#how">{d.nav.how}</a>
           <a href="#brokers">{d.nav.brokers}</a>
+          <a href="#embed">{d.embed.copy === 'Copy code' ? 'Embed' : d.embed.copy}</a>
           <a href="#faq">FAQ</a>
         </nav>
         <div className="top-actions">
@@ -183,7 +194,14 @@ export default function Site({
         <div className="wrap">
           <h2 id="programs-h">{d.programs.title}</h2>
           <p className="section-lead">{d.programs.lead}</p>
-          <div className="sheet-scroll">
+          <div className="seg" role="tablist" aria-label={d.programs.title}>
+            {(['residential', 'commercial'] as const).map((k) => (
+              <button key={k} type="button" role="tab" aria-selected={seg === k} className={seg === k ? 'seg-on' : ''} onClick={() => setSeg(k)}>
+                {d.segments[k]}
+              </button>
+            ))}
+          </div>
+          <div className="sheet-scroll" role="tabpanel">
             <table className="sheet">
               <thead>
                 <tr>
@@ -195,7 +213,7 @@ export default function Site({
                 </tr>
               </thead>
               <tbody>
-                {PROGRAM_ORDER.map((k) => (
+                {SEGMENTS[seg].map((k) => (
                   <tr key={k}>
                     <th scope="row">{d.programs.rows[k].name}</th>
                     <td className="use">{d.programs.rows[k].use}</td>
@@ -210,6 +228,17 @@ export default function Site({
           <p className="sheet-note">
             {d.programs.note} {d.rates.asOf} {fmtDate(rangesAsOf, lang)}.
           </p>
+        </div>
+      </section>
+
+      <section id="coverage" className="coverage" aria-labelledby="coverage-h">
+        <div className="wrap coverage-inner">
+          <div>
+            <h2 id="coverage-h">{d.coverage.title}</h2>
+            <p className="section-lead">{d.coverage.lead}</p>
+            <p className="coverage-list">{states.join(' · ')}</p>
+          </div>
+          <StateMap states={states} label={d.coverage.title} />
         </div>
       </section>
 
@@ -245,6 +274,38 @@ export default function Site({
           <button type="button" className="btn btn-gold" onClick={toDesk}>
             {d.brokers.cta}
           </button>
+        </div>
+      </section>
+
+      <section id="embed" className="embed" aria-labelledby="embed-h">
+        <div className="wrap embed-inner">
+          <div>
+            <h2 id="embed-h">{d.embed.title}</h2>
+            <p className="section-lead">{d.embed.lead}</p>
+            <ol className="embed-steps">
+              {d.embed.steps.map((x) => (
+                <li key={x}>{x}</li>
+              ))}
+            </ol>
+          </div>
+          <div className="code-card">
+            <pre dir="ltr">
+              <code>{snippet}</code>
+            </pre>
+            <button
+              type="button"
+              className="btn btn-gold btn-small"
+              onClick={() => {
+                navigator.clipboard?.writeText(snippet).then(() => {
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                });
+              }}
+            >
+              {copied ? d.embed.copied : d.embed.copy}
+            </button>
+            <p className="code-note">{d.embed.note}</p>
+          </div>
         </div>
       </section>
 

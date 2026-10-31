@@ -24,6 +24,20 @@ function getRecognition(): (new () => Recognition) | null {
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
+// crypto.randomUUID only exists in secure contexts; partner sites on plain http embed us too.
+function newId(): string {
+  try {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  } catch {}
+  const b = new Uint8Array(16);
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) crypto.getRandomValues(b);
+  else for (let i = 0; i < 16; i++) b[i] = Math.floor(Math.random() * 256);
+  b[6] = (b[6] & 0x0f) | 0x40;
+  b[8] = (b[8] & 0x3f) | 0x80;
+  const h = [...b].map((x) => x.toString(16).padStart(2, '0')).join('');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
+
 export default function Chat({ lang, lenderName, compact = false }: { lang: Lang; lenderName: string; compact?: boolean }) {
   const t = DICT[lang].chat;
   const [turns, setTurns] = useState<Turn[]>([{ role: 'assistant', content: t.greeting(lenderName) }]);
@@ -42,10 +56,10 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
 
   useEffect(() => {
     try {
-      sessionId.current = sessionStorage.getItem('la_session') || crypto.randomUUID();
+      sessionId.current = sessionStorage.getItem('la_session') || newId();
       sessionStorage.setItem('la_session', sessionId.current);
     } catch {
-      sessionId.current = crypto.randomUUID();
+      sessionId.current = newId();
     }
   }, []);
 
@@ -77,12 +91,12 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
   );
 
   const speak = useCallback(
-    async (text: string, then: () => void) => {
+    async (text: string, then: () => void, tone = 'warm') => {
       try {
         const res = await fetch('/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: toSpeech(text), lang }),
+          body: JSON.stringify({ text: toSpeech(text), lang, tone }),
         });
         if (!res.ok) throw new Error(String(res.status));
         const url = URL.createObjectURL(await res.blob());
@@ -143,7 +157,7 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
       const data = await res.json();
       const reply = data.reply || t.error;
       setTurns((cur) => [...cur, { role: 'assistant', content: reply }]);
-      if (viaVoice && voiceRef.current) void speak(reply, () => voiceRef.current && listen());
+      if (viaVoice && voiceRef.current) void speak(reply, () => voiceRef.current && listen(), data.tone);
     } catch {
       setNotice(t.error);
     } finally {

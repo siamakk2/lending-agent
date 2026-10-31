@@ -14,29 +14,29 @@ export function pathFor(lang: Lang) {
 
 const SEO: Record<Lang, { title: string; description: string; keywords: string[] }> = {
   en: {
-    title: 'Hard Money, Fix-and-Flip, Bridge & DSCR Loans',
-    description: 'Private real estate loans through 50+ licensed brokers: hard money, fix-and-flip, bridge, construction and DSCR. Live prime and SOFR rates, typical 2026 ranges, and a 24/7 lending desk in 5 languages.',
-    keywords: ['hard money loans', 'fix and flip loans', 'bridge loans', 'DSCR loans', 'private money lender', 'construction loans', 'real estate investor loans', 'hard money rates 2026', 'private lending network'],
+    title: 'Residential & Commercial Real Estate Loans — Hard Money, DSCR, Bridge',
+    description: 'Lending Desk is a non-bank lender: account executives and 50+ partner brokers arrange residential and commercial real estate loans across multiple states — hard money, fix-and-flip, bridge, construction, DSCR, bank-statement and commercial. Live rates and a 24/7 desk in 5 languages.',
+    keywords: ['non-bank lender', 'residential real estate loans', 'commercial real estate loans', 'hard money loans', 'fix and flip loans', 'bridge loans', 'DSCR loans', 'bank statement loans', 'commercial mortgage', 'construction loans', 'private money lender', 'hard money rates 2026'],
   },
   es: {
-    title: 'Préstamos Hard Money, Fix-and-Flip, Puente y DSCR',
-    description: 'Préstamos inmobiliarios privados con más de 50 brókers con licencia: hard money, fix-and-flip, puente, construcción y DSCR. Tasas prime y SOFR en vivo, rangos típicos de 2026 y atención 24/7 en español.',
-    keywords: ['préstamos hard money', 'préstamos fix and flip', 'préstamo puente', 'préstamos DSCR', 'prestamista privado', 'préstamos para inversionistas inmobiliarios'],
+    title: 'Préstamos Inmobiliarios Residenciales y Comerciales — Hard Money, DSCR, Puente',
+    description: 'Lending Desk es un prestamista no bancario: ejecutivos de cuenta y más de 50 brókers asociados gestionan préstamos inmobiliarios residenciales y comerciales en varios estados: hard money, fix-and-flip, puente, construcción, DSCR, estados de cuenta y comerciales. Tasas en vivo y atención 24/7 en español.',
+    keywords: ['prestamista no bancario', 'préstamos residenciales', 'préstamos comerciales', 'préstamos hard money', 'préstamos fix and flip', 'préstamo puente', 'préstamos DSCR', 'préstamos con estados de cuenta bancarios'],
   },
   fa: {
-    title: 'وام هارد مانی، خرید و بازسازی، پل و DSCR',
-    description: 'وام خصوصی املاک از طریق بیش از ۵۰ کارگزار دارای مجوز: هارد مانی، خرید و بازسازی، پل، ساخت و DSCR. نرخ پرایم و SOFR زنده، بازه‌های رایج ۲۰۲۶ و میز وام شبانه‌روزی به فارسی.',
-    keywords: ['وام هارد مانی', 'وام خرید و بازسازی', 'وام پل', 'وام DSCR', 'وام‌دهنده خصوصی', 'وام سرمایه‌گذاری املاک'],
+    title: 'وام املاک مسکونی و تجاری — هارد مانی، DSCR، پل',
+    description: 'Lending Desk یک وام‌دهنده غیربانکی است: مدیران حساب و بیش از ۵۰ کارگزار همکار، وام‌های املاک مسکونی و تجاری را در چند ایالت ترتیب می‌دهند: هارد مانی، خرید و بازسازی، پل، ساخت، DSCR، صورت‌حساب بانکی و تجاری. نرخ زنده و میز وام شبانه‌روزی به فارسی.',
+    keywords: ['وام‌دهنده غیربانکی', 'وام مسکونی', 'وام تجاری', 'وام هارد مانی', 'وام خرید و بازسازی', 'وام پل', 'وام DSCR', 'وام با صورت‌حساب بانکی'],
   },
   de: {
-    title: 'Hard-Money-, Fix-and-Flip-, Überbrückungs- & DSCR-Kredite',
-    description: 'Private Immobilienkredite über mehr als 50 lizenzierte Makler: Hard Money, Fix-and-Flip, Überbrückung, Neubau und DSCR. Live-Prime- und SOFR-Zinsen, typische Spannen 2026 und ein Kreditdesk rund um die Uhr auf Deutsch.',
-    keywords: ['Hard-Money-Kredit', 'Fix-and-Flip-Finanzierung', 'Überbrückungskredit', 'DSCR-Kredit', 'privater Kreditgeber', 'Immobilieninvestor Kredit USA'],
+    title: 'Wohn- & Gewerbeimmobilienkredite — Hard Money, DSCR, Überbrückung',
+    description: 'Lending Desk ist ein Nichtbank-Kreditgeber: Account Executives und mehr als 50 Partnermakler vermitteln Wohn- und Gewerbeimmobilienkredite in mehreren Bundesstaaten — Hard Money, Fix-and-Flip, Überbrückung, Neubau, DSCR, Kontoauszugs- und Gewerbekredite. Live-Zinsen und ein Kreditdesk rund um die Uhr auf Deutsch.',
+    keywords: ['Nichtbank-Kreditgeber', 'Wohnimmobilienkredit', 'Gewerbeimmobilienkredit', 'Hard-Money-Kredit', 'Fix-and-Flip-Finanzierung', 'Überbrückungskredit', 'DSCR-Kredit', 'Immobilieninvestor Kredit USA'],
   },
   zh: {
-    title: '硬钱贷款、翻新转售、过桥及DSCR贷款',
-    description: '通过50多位持牌经纪人提供私人房地产贷款：硬钱、翻新转售、过桥、建筑及DSCR。实时最优惠利率和SOFR、2026年常见利率区间，以及全天候中文贷款服务台。',
-    keywords: ['硬钱贷款', '翻新转售贷款', '过桥贷款', 'DSCR贷款', '私人贷款', '美国房地产投资贷款'],
+    title: '住宅及商业房地产贷款 — 硬钱、DSCR、过桥',
+    description: 'Lending Desk 是一家非银行贷款机构：客户经理与50多位合作经纪人在多个州安排住宅和商业房地产贷款，包括硬钱、翻新转售、过桥、建筑、DSCR、银行流水及商业贷款。实时利率与全天候中文贷款服务台。',
+    keywords: ['非银行贷款机构', '住宅贷款', '商业房地产贷款', '硬钱贷款', '翻新转售贷款', '过桥贷款', 'DSCR贷款', '银行流水贷款'],
   },
 };
 
@@ -68,7 +68,7 @@ export function buildMetadata(lang: Lang): Metadata {
   };
 }
 
-const PROGRAM_KEYS = ['fix_flip', 'bridge', 'construction', 'dscr', 'commercial'] as const;
+const PROGRAM_KEYS = ['fix_flip', 'bridge', 'construction', 'dscr', 'bank_statement', 'commercial_perm', 'commercial'] as const;
 
 /** One schema.org @graph per page: the organization, its loan programs, the page, the FAQ and today's benchmark data. */
 export function buildJsonLd(lang: Lang, benchmarks: Benchmark[]) {
@@ -109,7 +109,7 @@ export function buildJsonLd(lang: Lang, benchmarks: Benchmark[]) {
         ...(LENDER.nmls ? { identifier: { '@type': 'PropertyValue', propertyID: 'NMLS', value: LENDER.nmls } } : {}),
         areaServed: LENDER.box.states.map((s) => ({ '@type': 'State', name: s, containedInPlace: { '@type': 'Country', name: 'United States' } })),
         availableLanguage: LANGS.map((l) => ({ '@type': 'Language', name: LANG_META[l].label, alternateName: l })),
-        knowsAbout: ['Hard money loans', 'Fix-and-flip financing', 'Bridge loans', 'Ground-up construction loans', 'DSCR rental loans', 'Commercial bridge loans', 'Private real estate lending', 'Prime rate', 'SOFR'],
+        knowsAbout: ['Residential real estate loans', 'Commercial real estate loans', 'Bank statement loans', 'Commercial permanent mortgages', 'Hard money loans', 'Fix-and-flip financing', 'Bridge loans', 'Ground-up construction loans', 'DSCR rental loans', 'Commercial bridge loans', 'Private real estate lending', 'Prime rate', 'SOFR'],
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'customer service',
@@ -126,7 +126,7 @@ export function buildJsonLd(lang: Lang, benchmarks: Benchmark[]) {
               '@type': 'LoanOrCredit',
               name: DICT.en.programs.rows[k].name,
               loanType: DICT.en.programs.rows[k].name,
-              description: `${DICT.en.programs.rows[k].use}. Typical market range ${MARKET_RANGES.ranges[k].rate}${MARKET_RANGES.ranges[k].points ? `, ${MARKET_RANGES.ranges[k].points} points` : ''}, term ${termText(k)}, leverage ${MARKET_RANGES.ranges[k].leverage}. Not an offer to lend; terms set by a licensed broker.`,
+              description: `${DICT.en.programs.rows[k].use}. Typical market range ${MARKET_RANGES.ranges[k].rate}${MARKET_RANGES.ranges[k].points ? `, ${MARKET_RANGES.ranges[k].points} points` : ''}, term ${termText(k)}, leverage ${MARKET_RANGES.ranges[k].leverage}. Not an offer to lend; terms set after underwriting.`,
               loanTerm: termText(k),
               provider: { '@id': orgId },
             },

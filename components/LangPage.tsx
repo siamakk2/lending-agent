@@ -17,6 +17,7 @@ export default async function LangPage({ lang }: { lang: Lang }) {
         rangesAsOf={MARKET_RANGES.as_of}
         lenderName={LENDER.name}
         nmls={LENDER.nmls}
+        states={LENDER.box.states}
         initialLang={lang}
         faq={FAQ}
         faqTitle={FAQ_TITLE}

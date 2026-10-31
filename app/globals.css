@@ -227,3 +227,36 @@ section[id] { scroll-margin-top: 76px; }
   .board-grid { grid-template-columns: 1fr; }
   .board-cell:nth-child(even) { padding-inline-start: 0; border-inline-start: 0; }
 }
+
+/* Residential / commercial switch */
+.seg { display: inline-flex; padding: 4px; margin: 0 0 18px; background: var(--paper-2); border: 1px solid var(--line); border-radius: 999px; }
+.seg button { min-height: 40px; padding: 0 20px; border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); font: 600 14.5px/1 var(--body); cursor: pointer; }
+.seg button.seg-on { background: var(--vault); color: var(--paper); box-shadow: inset 0 -2px 0 var(--gold); }
+
+/* Where we lend */
+.coverage { background: var(--white); border-top: 1px solid var(--line); }
+.coverage-inner { padding-top: 72px; padding-bottom: 72px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; }
+.coverage h2, .embed h2 { margin: 0 0 10px; font: 500 clamp(28px, 3vw, 38px)/1.15 var(--display); }
+.coverage-list { margin: 0; font: 600 15px/1.6 var(--body); color: var(--note); letter-spacing: .04em; }
+.statemap { width: 100%; height: auto; display: block; }
+.statemap .tile { fill: var(--paper-2); stroke: var(--line); stroke-width: 1; }
+.statemap .tile-on { fill: var(--vault); stroke: var(--gold); stroke-width: 1.5; }
+.statemap .tile-t { font: 600 13px var(--body); fill: #8a9aa6; }
+.statemap .tile-t-on { fill: var(--gold-hi); }
+
+/* Embed on your site */
+.embed { background: var(--vault); color: var(--paper); position: relative; }
+.embed-inner { padding-top: 72px; padding-bottom: 72px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center; }
+.embed .section-lead { color: rgba(237, 241, 239, .82); }
+.embed-steps { margin: 0; padding-inline-start: 22px; display: grid; gap: 10px; font-size: 15.5px; }
+.embed-steps li::marker { color: var(--gold-hi); font-weight: 700; }
+.code-card { background: #0a1628; border: 1px solid rgba(210, 174, 99, .45); border-radius: var(--radius-m); padding: 22px; display: grid; gap: 16px; justify-items: start; }
+.code-card pre { margin: 0; width: 100%; overflow-x: auto; font: 13.5px/1.65 ui-monospace, 'SF Mono', Menlo, Consolas, monospace; color: #cfe0d8; white-space: pre-wrap; word-break: break-all; text-align: left; }
+.code-note { margin: 0; font-size: 13.5px; color: rgba(237, 241, 239, .65); }
+
+/* Leave room for the embed's close button */
+.desk-compact .desk-head { padding-inline-end: 56px; }
+
+@media (max-width: 1020px) {
+  .coverage-inner, .embed-inner { grid-template-columns: 1fr; gap: 32px; }
+}
