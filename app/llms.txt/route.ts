@@ -41,6 +41,10 @@ ${FAQ.en.map((x) => `### ${x.q}\n${x.a}`).join('\n\n')}
 ${LANGS.map((l) => `- [${LANG_META[l].label}](${SITE_URL}${pathFor(l)})`).join('\n')}
 - [Embeddable lending desk](${SITE_URL}/widget)
 - Embed on any site: <script src="${SITE_URL}/embed.js" data-partner="YOUR-ID" async></script>
+
+## About this site
+- Built by Siamak Kalhor Consulting: https://siamakconsulting.com/lending-desk
+- Last updated: ${new Date().toISOString().slice(0, 10)}
 `;
 
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });

@@ -20,7 +20,7 @@ export default function OpenGraphImage() {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 24, color: '#d2ae63', borderTop: '2px solid rgba(180,138,60,.5)', paddingTop: 22 }}>
           <span>Non-bank lender · 50+ partner brokers</span>
-          <span>English · Español · فارسی · Deutsch · 中文</span>
+          <span>24/7 chat &amp; voice · 5 languages</span>
         </div>
       </div>
     ),

@@ -12,45 +12,64 @@ export function pathFor(lang: Lang) {
   return lang === 'en' ? '/' : `/${lang}`;
 }
 
-const SEO: Record<Lang, { title: string; description: string; keywords: string[] }> = {
+const SEO: Record<Lang, { title: string; shareTitle: string; shareDescription: string; description: string; keywords: string[] }> = {
   en: {
     title: 'Residential & Commercial Real Estate Loans — Hard Money, DSCR, Bridge',
+    shareTitle: 'Lending Desk | Hard Money, DSCR & Commercial Real Estate Loans',
+    shareDescription: 'Hard money, fix-and-flip, bridge, DSCR, construction and commercial loans. Live rates and a 24/7 lending desk in 5 languages. Non-bank lender.',
     description: 'Lending Desk is a non-bank lender: account executives and 50+ partner brokers arrange residential and commercial real estate loans across multiple states — hard money, fix-and-flip, bridge, construction, DSCR, bank-statement and commercial. Live rates and a 24/7 desk in 5 languages.',
     keywords: ['non-bank lender', 'residential real estate loans', 'commercial real estate loans', 'hard money loans', 'fix and flip loans', 'bridge loans', 'DSCR loans', 'bank statement loans', 'commercial mortgage', 'construction loans', 'private money lender', 'hard money rates 2026'],
   },
   es: {
     title: 'Préstamos Inmobiliarios Residenciales y Comerciales — Hard Money, DSCR, Puente',
+    shareTitle: 'Lending Desk | Préstamos Hard Money, DSCR y Comerciales',
+    shareDescription: 'Préstamos hard money, fix-and-flip, puente, DSCR, construcción y comerciales. Tasas en vivo y atención 24/7 en español. Prestamista no bancario.',
     description: 'Lending Desk es un prestamista no bancario: ejecutivos de cuenta y más de 50 brókers asociados gestionan préstamos inmobiliarios residenciales y comerciales en varios estados: hard money, fix-and-flip, puente, construcción, DSCR, estados de cuenta y comerciales. Tasas en vivo y atención 24/7 en español.',
     keywords: ['prestamista no bancario', 'préstamos residenciales', 'préstamos comerciales', 'préstamos hard money', 'préstamos fix and flip', 'préstamo puente', 'préstamos DSCR', 'préstamos con estados de cuenta bancarios'],
   },
   fa: {
     title: 'وام املاک مسکونی و تجاری — هارد مانی، DSCR، پل',
+    shareTitle: 'Lending Desk | وام هارد مانی، DSCR و املاک تجاری',
+    shareDescription: 'وام هارد مانی، خرید و بازسازی، پل، DSCR، ساخت و تجاری. نرخ‌های زنده و میز وام شبانه‌روزی به فارسی. وام‌دهنده غیربانکی.',
     description: 'Lending Desk یک وام‌دهنده غیربانکی است: مدیران حساب و بیش از ۵۰ کارگزار همکار، وام‌های املاک مسکونی و تجاری را در چند ایالت ترتیب می‌دهند: هارد مانی، خرید و بازسازی، پل، ساخت، DSCR، صورت‌حساب بانکی و تجاری. نرخ زنده و میز وام شبانه‌روزی به فارسی.',
     keywords: ['وام‌دهنده غیربانکی', 'وام مسکونی', 'وام تجاری', 'وام هارد مانی', 'وام خرید و بازسازی', 'وام پل', 'وام DSCR', 'وام با صورت‌حساب بانکی'],
   },
   de: {
     title: 'Wohn- & Gewerbeimmobilienkredite — Hard Money, DSCR, Überbrückung',
+    shareTitle: 'Lending Desk | Hard-Money-, DSCR- & Gewerbekredite',
+    shareDescription: 'Hard-Money-, Fix-and-Flip-, Überbrückungs-, DSCR-, Bau- und Gewerbekredite. Live-Zinsen und ein Kreditdesk rund um die Uhr auf Deutsch. Nichtbank-Kreditgeber.',
     description: 'Lending Desk ist ein Nichtbank-Kreditgeber: Account Executives und mehr als 50 Partnermakler vermitteln Wohn- und Gewerbeimmobilienkredite in mehreren Bundesstaaten — Hard Money, Fix-and-Flip, Überbrückung, Neubau, DSCR, Kontoauszugs- und Gewerbekredite. Live-Zinsen und ein Kreditdesk rund um die Uhr auf Deutsch.',
     keywords: ['Nichtbank-Kreditgeber', 'Wohnimmobilienkredit', 'Gewerbeimmobilienkredit', 'Hard-Money-Kredit', 'Fix-and-Flip-Finanzierung', 'Überbrückungskredit', 'DSCR-Kredit', 'Immobilieninvestor Kredit USA'],
   },
   zh: {
     title: '住宅及商业房地产贷款 — 硬钱、DSCR、过桥',
+    shareTitle: 'Lending Desk | 硬钱、DSCR及商业房地产贷款',
+    shareDescription: '硬钱、翻新转售、过桥、DSCR、建筑及商业贷款。实时利率与全天候中文贷款服务台。非银行贷款机构。',
     description: 'Lending Desk 是一家非银行贷款机构：客户经理与50多位合作经纪人在多个州安排住宅和商业房地产贷款，包括硬钱、翻新转售、过桥、建筑、DSCR、银行流水及商业贷款。实时利率与全天候中文贷款服务台。',
     keywords: ['非银行贷款机构', '住宅贷款', '商业房地产贷款', '硬钱贷款', '翻新转售贷款', '过桥贷款', 'DSCR贷款', '银行流水贷款'],
   },
 };
 
+export const OG_IMAGE = { url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, type: 'image/png' };
+export const LOGO_URL = `${SITE_URL}/logo.png`;
+export const BUILDER = { name: 'Siamak Kalhor Consulting', url: 'https://siamakconsulting.com', product: 'https://siamakconsulting.com/lending-desk' };
+
+/** Page metadata: short share title and description (fit Google and social cards), preview image on every page. */
 export function buildMetadata(lang: Lang): Metadata {
   const s = SEO[lang];
-  const title = `${s.title} | ${LENDER.name}`;
+  const title = s.shareTitle;
   const url = `${SITE_URL}${pathFor(lang)}`;
   const languages = Object.fromEntries(LANGS.map((l) => [l === 'zh' ? 'zh-Hans' : l, `${SITE_URL}${pathFor(l)}`]));
+  const image = { ...OG_IMAGE, alt: `${LENDER.name} — ${s.title}` };
   return {
     metadataBase: new URL(SITE_URL),
-    title,
-    description: s.description,
+    title: { absolute: title },
+    description: s.shareDescription,
     keywords: s.keywords,
     applicationName: LENDER.name,
+    authors: [{ name: BUILDER.name, url: BUILDER.url }],
+    creator: BUILDER.name,
+    publisher: LENDER.name,
     category: 'finance',
     alternates: { canonical: url, languages: { ...languages, 'x-default': `${SITE_URL}/` } },
     openGraph: {
@@ -58,13 +77,16 @@ export function buildMetadata(lang: Lang): Metadata {
       url,
       siteName: LENDER.name,
       title,
-      description: s.description,
+      description: s.shareDescription,
       locale: OG_LOCALE[lang],
       alternateLocale: LANGS.filter((l) => l !== lang).map((l) => OG_LOCALE[l]),
+      images: [image],
     },
-    twitter: { card: 'summary_large_image', title, description: s.description },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
+    twitter: { card: 'summary_large_image', title, description: s.shareDescription, images: [image] },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large', 'max-video-preview': -1 } },
+    appleWebApp: { title: LENDER.name, capable: true, statusBarStyle: 'black-translucent' },
     formatDetection: { telephone: false },
+    other: { 'og:logo': LOGO_URL },
   };
 }
 
@@ -101,8 +123,9 @@ export function buildJsonLd(lang: Lang, benchmarks: Benchmark[]) {
         '@id': orgId,
         name: LENDER.name,
         url: SITE_URL,
-        logo: `${SITE_URL}/icon.svg`,
-        image: `${SITE_URL}/opengraph-image`,
+        logo: { '@type': 'ImageObject', url: LOGO_URL, width: 512, height: 512 },
+        image: { '@type': 'ImageObject', url: OG_IMAGE.url, width: OG_IMAGE.width, height: OG_IMAGE.height },
+        sameAs: [BUILDER.product],
         description: SEO.en.description,
         slogan: DICT.en.hero.title,
         ...(LENDER.phone ? { telephone: LENDER.phone } : {}),
@@ -138,7 +161,9 @@ export function buildJsonLd(lang: Lang, benchmarks: Benchmark[]) {
         '@id': `${SITE_URL}/#website`,
         url: SITE_URL,
         name: LENDER.name,
+        description: SEO.en.shareDescription,
         publisher: { '@id': orgId },
+        creator: { '@type': 'Organization', name: BUILDER.name, url: BUILDER.url },
         inLanguage: LANGS.map((l) => (l === 'zh' ? 'zh-Hans' : l)),
       },
       {
@@ -150,6 +175,7 @@ export function buildJsonLd(lang: Lang, benchmarks: Benchmark[]) {
         inLanguage,
         isPartOf: { '@id': `${SITE_URL}/#website` },
         about: { '@id': orgId },
+        primaryImageOfPage: { '@type': 'ImageObject', url: OG_IMAGE.url, width: OG_IMAGE.width, height: OG_IMAGE.height },
         dateModified: new Date().toISOString().slice(0, 10),
         speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.hero h1', '.hero-lead', '.faq-a'] },
       },
