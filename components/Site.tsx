@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Chat from './Chat.tsx';
+import LiveVoice from './LiveVoice.tsx';
 import { Band, Rosette, WaveField } from './Engraving.tsx';
 import Medallion from './Medallion.tsx';
 import StateMap from './StateMap.tsx';
@@ -342,6 +343,7 @@ export default function Site({
           </p>
         </div>
       </footer>
+      <LiveVoice lang={lang} />
     </div>
   );
 }

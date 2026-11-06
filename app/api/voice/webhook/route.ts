@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   const r = await saveLead(input, {
     sessionId,
     channel: 'voice',
-    source: 'phone',
+    source: call.metadata?.phone_call ? 'phone' : 'website-voice',
     consentText: voiceConsentText(call.conversation_id),
     consentChannels: ['voice'],
     consentLabel: 'yes, verbal on recorded call (return calls only, no texts)',
