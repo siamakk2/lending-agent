@@ -1,0 +1,29 @@
+# Gable Holdings
+
+> Gable Holdings, LLC is a non-bank lender based in Palm Beach, Florida. Its account executives arrange residential and commercial real estate loans for investors, builders and brokers across multiple states. It is not a bank and does not take deposits.
+
+## Key facts
+- Legal name: Gable Holdings, LLC
+- Based in: Palm Beach, Florida, United States
+- Established: 2015
+- Type: Non-bank lender (lending-related entity with account executives arranging multi-state lending)
+- Lending: residential and commercial real estate, multiple states
+- 24/7 AI lending desk in English, Spanish, Persian, German and Chinese; requests go to an account executive
+
+## Loan programs
+- Fix-and-flip: purchase and renovation, sized against after-repair value
+- Bridge: short-term money while a property is sold or refinanced
+- Ground-up construction: draw-based financing for new builds
+- DSCR rental: long-term rental loans qualified on the property's rent
+- Bank statement: for self-employed borrowers, qualified on deposits
+- Commercial bridge: multifamily, mixed-use, retail, office and industrial
+- Commercial permanent: longer-term financing for stabilized property
+
+## How to start
+Describe the deal to the lending desk at https://gable-holdings.vercel.app/#desk. It asks a few questions, checks the basics and sends the file to an account executive. All loans are subject to underwriting and approval; the desk never quotes or approves loans.
+
+## Brokers
+Brokers submit deals through the lending desk; partner brokers can add it to their own websites with one line of code, and leads are credited to them.
+
+## Pages
+- [Home](https://gable-holdings.vercel.app/)

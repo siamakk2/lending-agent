@@ -1,0 +1,6 @@
+# Preview: crawling is off until the site moves to Gable Holdings' own domain.
+# At launch, replace with:  User-agent: *  /  Allow: /  and keep the Sitemap line.
+User-agent: *
+Disallow: /
+
+Sitemap: https://gable-holdings.vercel.app/sitemap.xml
