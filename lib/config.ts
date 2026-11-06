@@ -46,6 +46,22 @@ export const MARKET_RANGES: { as_of: string; note: string; ranges: Record<LoanTy
 export const LENDER_ABOUT =
   'a non-bank lender whose account executives and 50+ partner brokers arrange residential and commercial real estate loans of all types across multiple states';
 
+/**
+ * Partner sites that embed the desk under their own name. Only IDs listed here can rebrand it,
+ * so a page cannot make the agent claim to be a company that has not been set up.
+ */
+export const BRANDS: Record<string, { name: string; about: string }> = {
+  'gable-holdings': {
+    name: 'Gable Holdings',
+    about: 'a non-bank lender based in Palm Beach, Florida, whose account executives arrange residential and commercial real estate loans of all types across multiple states',
+  },
+};
+
+export function brandFor(partner?: string | null): { name: string; about: string } {
+  const b = partner ? BRANDS[partner] : undefined;
+  return b || { name: LENDER.name, about: LENDER_ABOUT };
+}
+
 // The English consent text is the version of record stored with each consent.
 export const CONSENT_TEXT = (lender: string) =>
   `I agree that ${lender} and its partner brokers may contact me at the number and email I provide, including by calls and texts using an AI-generated voice or automated technology, about my financing inquiry. Consent is not a condition of any loan. Message and data rates may apply. Reply STOP to opt out.`;

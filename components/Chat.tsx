@@ -38,7 +38,7 @@ function newId(): string {
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 }
 
-export default function Chat({ lang, lenderName, compact = false }: { lang: Lang; lenderName: string; compact?: boolean }) {
+export default function Chat({ lang, lenderName, partner, compact = false }: { lang: Lang; lenderName: string; partner?: string; compact?: boolean }) {
   const t = DICT[lang].chat;
   const [turns, setTurns] = useState<Turn[]>([{ role: 'assistant', content: t.greeting(lenderName) }]);
   const [input, setInput] = useState('');
@@ -152,7 +152,7 @@ export default function Chat({ lang, lenderName, compact = false }: { lang: Lang
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: next.slice(1), sessionId: sessionId.current, consent, lang, voice: viaVoice, source: window.location.href }),
+        body: JSON.stringify({ messages: next.slice(1), sessionId: sessionId.current, consent, lang, voice: viaVoice, source: window.location.href, partner }),
       });
       const data = await res.json();
       const reply = data.reply || t.error;

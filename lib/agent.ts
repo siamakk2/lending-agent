@@ -77,7 +77,7 @@ export const TOOLS: Anthropic.Messages.ToolUnion[] = [
   { type: 'web_search_20250305', name: 'web_search', max_uses: 3 },
 ];
 
-export type ChatContext = { sessionId: string; consent: boolean; lang: Lang; voice?: boolean; channel?: string; source?: string; ip?: string; userAgent?: string };
+export type ChatContext = { sessionId: string; consent: boolean; lang: Lang; voice?: boolean; channel?: string; source?: string; partner?: string | null; ip?: string; userAgent?: string };
 
 async function runTool(name: string, input: Record<string, unknown>, ctx: ChatContext): Promise<unknown> {
   switch (name) {
@@ -124,7 +124,7 @@ export async function chat(history: ChatTurn[], ctx: ChatContext): Promise<{ rep
       model: MODEL,
       max_tokens: 1200,
       system:
-        systemPrompt(ctx.lang) +
+        systemPrompt(ctx.lang, new Date(), ctx.partner) +
         `\n\nConsent box under the chat is currently ${ctx.consent ? 'CHECKED' : 'NOT checked'}.` +
         (ctx.voice ? '\nThis turn is VOICE: the reply will be spoken aloud. Plain sentences only, no markdown, under 60 words.' : ''),
       tools: TOOLS,

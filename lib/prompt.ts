@@ -1,10 +1,11 @@
-import { LENDER, LENDER_ABOUT, MARKET_RANGES } from './config.ts';
+import { LENDER, MARKET_RANGES, brandFor } from './config.ts';
 import { LANG_META, type Lang } from './i18n.ts';
 
-export function systemPrompt(lang: Lang = 'en', today = new Date()): string {
+export function systemPrompt(lang: Lang = 'en', today = new Date(), partner?: string | null): string {
   const box = LENDER.box;
+  const brand = brandFor(partner);
   const chosen = LANG_META[lang].promptName;
-  return `You are the AI lending assistant for ${LENDER.name}, ${LENDER_ABOUT}. ${LENDER.name} is a non-bank lender, not a bank: never call it a bank and never imply deposits or FDIC insurance.
+  return `You are the AI lending assistant for ${brand.name}, ${brand.about}. ${brand.name} is a non-bank lender, not a bank: never call it a bank and never imply deposits or FDIC insurance.
 Today is ${today.toISOString().slice(0, 10)}.
 
 LANGUAGE

@@ -5,7 +5,7 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  let body: { messages?: ChatTurn[]; sessionId?: string; consent?: boolean; source?: string; lang?: string; voice?: boolean };
+  let body: { messages?: ChatTurn[]; sessionId?: string; consent?: boolean; source?: string; partner?: string; lang?: string; voice?: boolean };
   try {
     body = await req.json();
   } catch {
@@ -29,6 +29,7 @@ export async function POST(req: Request) {
       voice: body.voice === true,
       channel: 'chat',
       source: body.source?.slice(0, 300),
+      partner: typeof body.partner === 'string' && /^[a-z0-9-]{1,64}$/.test(body.partner) ? body.partner : null,
       ip: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim(),
       userAgent: req.headers.get('user-agent')?.slice(0, 300) || undefined,
     });

@@ -1,5 +1,5 @@
 import { db } from './db.ts';
-import { CONSENT_TEXT, LENDER } from './config.ts';
+import { CONSENT_TEXT, LENDER, brandFor } from './config.ts';
 import { scoreLead, type DealInput } from './scoring.ts';
 
 export type SaveLeadInput = {
@@ -58,7 +58,7 @@ export function partnerFrom(source?: string): string | null {
 
 export async function saveLead(
   input: SaveLeadInput,
-  ctx: { sessionId: string; channel?: string; source?: string; ip?: string; userAgent?: string; consentText?: string; consentChannels?: string[]; consentLabel?: string },
+  ctx: { sessionId: string; channel?: string; source?: string; partner?: string | null; ip?: string; userAgent?: string; consentText?: string; consentChannels?: string[]; consentLabel?: string },
 ): Promise<SaveLeadResult> {
   const { score, tier } = scoreLead(input.deal || {}, 5);
   const supa = db();
@@ -77,7 +77,7 @@ export async function saveLead(
     if (input.contact_consent) {
       const { data: consent } = await supa
         .from('la_consents')
-        .insert({ contact_id: contact.id, text_shown: ctx.consentText || CONSENT_TEXT(LENDER.name), channels: ctx.consentChannels || ['sms', 'voice', 'email'], ip: ctx.ip, user_agent: ctx.userAgent })
+        .insert({ contact_id: contact.id, text_shown: ctx.consentText || CONSENT_TEXT(brandFor(ctx.partner ?? partnerFrom(ctx.source)).name), channels: ctx.consentChannels || ['sms', 'voice', 'email'], ip: ctx.ip, user_agent: ctx.userAgent })
         .select('id')
         .single();
       consentId = consent?.id ?? null;
