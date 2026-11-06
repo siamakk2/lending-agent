@@ -11,6 +11,7 @@ export default function Nav({ urgent }: { urgent: number }) {
     { href: '/admin', label: 'Overview', on: path === '/admin' },
     { href: '/admin/leads', label: 'Leads', on: path.startsWith('/admin/leads'), badge: urgent },
     { href: '/admin/leads?status=open&urgent=1', label: 'Urgent', on: false },
+    { href: '/admin/phone', label: 'Phone line', on: path.startsWith('/admin/phone') },
   ];
   return (
     <nav className="adm-nav" aria-label="Admin">

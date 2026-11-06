@@ -56,7 +56,10 @@ export function partnerFrom(source?: string): string | null {
   }
 }
 
-export async function saveLead(input: SaveLeadInput, ctx: { sessionId: string; channel?: string; source?: string; ip?: string; userAgent?: string }): Promise<SaveLeadResult> {
+export async function saveLead(
+  input: SaveLeadInput,
+  ctx: { sessionId: string; channel?: string; source?: string; ip?: string; userAgent?: string; consentText?: string; consentChannels?: string[]; consentLabel?: string },
+): Promise<SaveLeadResult> {
   const { score, tier } = scoreLead(input.deal || {}, 5);
   const supa = db();
   if (!supa) return { ok: true, score, tier, demo: true };
@@ -74,7 +77,7 @@ export async function saveLead(input: SaveLeadInput, ctx: { sessionId: string; c
     if (input.contact_consent) {
       const { data: consent } = await supa
         .from('la_consents')
-        .insert({ contact_id: contact.id, text_shown: CONSENT_TEXT(LENDER.name), channels: ['sms', 'voice', 'email'], ip: ctx.ip, user_agent: ctx.userAgent })
+        .insert({ contact_id: contact.id, text_shown: ctx.consentText || CONSENT_TEXT(LENDER.name), channels: ctx.consentChannels || ['sms', 'voice', 'email'], ip: ctx.ip, user_agent: ctx.userAgent })
         .select('id')
         .single();
       consentId = consent?.id ?? null;
@@ -118,7 +121,7 @@ export async function saveLead(input: SaveLeadInput, ctx: { sessionId: string; c
           broker.email,
           broker.name,
           `${input.urgent ? 'URGENT · ' : ''}${tier.toUpperCase()} lead (${score}/100): ${d.loan_type || 'loan'} in ${d.city || ''} ${d.state || ''}`.trim(),
-          `${input.summary}\n${(input.flags || []).length ? `\nFlags:\n- ${(input.flags || []).join('\n- ')}\n` : ''}\nLanguage: ${input.preferred_language || 'en'} · Best time: ${input.best_callback_time || 'not given'}\nContact: ${input.full_name} · ${input.phone || ''} · ${input.email || ''}\nConsent to call/text: ${input.contact_consent ? 'yes' : 'NO — email only'}\n\nClaim within 15 minutes or it rolls to the next broker.`,
+          `${input.summary}\n${(input.flags || []).length ? `\nFlags:\n- ${(input.flags || []).join('\n- ')}\n` : ''}\nLanguage: ${input.preferred_language || 'en'} · Best time: ${input.best_callback_time || 'not given'}\nContact: ${input.full_name} · ${input.phone || ''} · ${input.email || ''}\nConsent to call/text: ${input.contact_consent ? ctx.consentLabel || 'yes' : 'NO — email only'}${ctx.channel === 'voice' ? '\nSource: inbound phone call' : ''}\n\nClaim within 15 minutes or it rolls to the next broker.`,
         );
       }
     }
