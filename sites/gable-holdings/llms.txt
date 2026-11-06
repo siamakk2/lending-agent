@@ -4,8 +4,9 @@
 
 ## Key facts
 - Legal name: Gable Holdings, LLC
-- Based in: Palm Beach, Florida, United States
-- Established: 2015
+- Address: 205 Worth Avenue, Suite 305, Palm Beach, FL 33480, United States
+- Registration: Wyoming LLC, registered in Florida as a foreign LLC on October 6, 2015 (Florida document no. M15000007987); status active
+- Manager: Weston E. Spicer
 - Type: Non-bank lender (lending-related entity with account executives arranging multi-state lending)
 - Lending: residential and commercial real estate, multiple states
 - 24/7 AI lending desk in English, Spanish, Persian, German and Chinese; requests go to an account executive
